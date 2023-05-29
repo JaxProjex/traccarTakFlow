@@ -1,5 +1,5 @@
 # traccarTakNode
-Node-Red Flow to forward Traccar server device locations to ATAK via multicast or TAKServer. Traccar Client CoT icons will change colors based on speed and status and can be configured to populate as a pointer to show course direction of movement (not supported by iTAK) or as a Spot Icon. (used in conjunction with Ampledatas node-red-contrib-tak)
+Node-Red Flow to forward Traccar server device locations to ATAK via multicast or TAKServer. Traccar Client CoT icons will change colors based on speed and status and can be configured to populate as a pointer to show course direction of movement (not supported by iTAK) or as a Spot Icon. (used in conjunction with Ampledatas node-red-contrib-tak). copy content in "traccarTakNode.json" and import to Node-Red.
 
 ![traccar flow](/screenshot1.png?raw=true "Node Red Flow")
 
