@@ -5,15 +5,22 @@ Node-Red Flow to forward Traccar server device locations to ATAK via multicast o
 
 
 REQUIREMENTS:
+
 -Traccar server
 -TAKServer (or ATAK Device for multicast)
 -node-red-contrib-tak (docs/installation found here: https://github.com/snstac/node-red-contrib-tak)
 
+=========================
+
 TESTING / TROUBLESHOOTING:
+
 -To test if CoT messages are being sent and recieved by TAKServer, send the example JSON to the TAK node and see if it populates on your ATAK client devices. 
 -To test if your Traccar clients are getting forwarded to your TAKServer, utilize an android phone with Traccar Client App and Mock Location App. You can then create a route for the android phones GPS to follow in the Mock Location app to create a better testing environment.
 
+=========================
+
 CONFIGURATING THE NODES:
+
 -Configure the "Ping" node to repeat in timed intervals for your needed usage, keep in mind the Traccar Client ping frequency thats configured for your traccar devices. 
 -Configure both HTTP Req nodes and put in your Traccar Server IP or Domain, along with your Username/Password credentials for your Traccar Server.
 -Configure whether you want CoT icons to populate as Generic Icon Pointers or as Spots. Recommend to use spots for use primarily with iTAK devices as iTAK does not have Generic Icons in its library and will just populate pointers as a yellow icon (a-u-G).
