@@ -26,6 +26,24 @@ CONFIGURATING THE NODES:
 
 =========================
 
+HOW IT WORKS:
+
+-ping node: starts the msg payload to the http request nodes.
+
+-http request nodes: send an http request to traccar servers api to get position informationa and device information.
+
+-join node: joins the response from both requests into one message of all device and position information.
+
+-sort node: sorts, correlates and pairs device information with its correct position information (required for multiple traccar clients), and then sends each paired device and position information as a individual msg payload to get parsed into a CoT msg.
+
+-traccar json node: extracts and formats the device and position information into a template that can be translated into a CoT msg. Runs a series of if/else statements to issue the color and shape of the CoT marker (if using "pointers).
+
+-tak node: formats and encodes the json into a properly formatted CoT marker read and digested by TAK.
+
+-tcp/udp node: the output of where the CoT marker gets sent to.
+
+=========================
+
 TESTING / TROUBLESHOOTING:
 
 -To test if CoT messages are being sent and recieved by TAKServer, send the example JSON to the TAK node and see if it populates on your TAK client devices. 
