@@ -2,7 +2,7 @@
     {
         "id": "969966e134a6473a",
         "type": "tab",
-        "label": "traccar Tak Node",
+        "label": "traccarTakFlow",
         "disabled": false,
         "info": "",
         "env": []
@@ -109,7 +109,7 @@
                 "p": "payload"
             }
         ],
-        "repeat": "",
+        "repeat": "60",
         "crontab": "",
         "once": false,
         "onceDelay": 0.1,
@@ -123,7 +123,8 @@
                 "0f54ebb3e16997ac",
                 "e64442c30f19dd2b"
             ]
-        ]
+        ],
+        "info": "input your interval time, be sure to change report frequency as well on traccar client devices"
     },
     {
         "id": "e64442c30f19dd2b",
@@ -329,6 +330,16 @@
                 "8557b4a51b32135b"
             ]
         ]
+    },
+    {
+        "id": "650aba5c49b1269c",
+        "type": "comment",
+        "z": "969966e134a6473a",
+        "name": "traccarTakFlow",
+        "info": "a node red flow to forward traccar client devices to ATAK via TAKServer or Multicast (requires ampledata's node-red-contrib-tak node to be installed)",
+        "x": 160,
+        "y": 60,
+        "wires": []
     },
     {
         "id": "1c52b35895c06e7e",
