@@ -12,8 +12,8 @@
         "type": "tak",
         "z": "969966e134a6473a",
         "name": "TAK",
-        "x": 1150,
-        "y": 140,
+        "x": 1170,
+        "y": 200,
         "wires": [
             [
                 "498a46c6ad158bcb",
@@ -27,15 +27,15 @@
         "id": "8557b4a51b32135b",
         "type": "function",
         "z": "969966e134a6473a",
-        "name": "Example JSON",
+        "name": "example/test json",
         "func": "/* \nExample JSON containing the keys & values for popular cursor on target CoT \nfields, including time, point latitude & longitude, type, and more.\n*/\n\n/* Stale is Date.now() + miliseconds. \n Ruberic: 1000 Miliseconds in 1 Second\n Example: 5 Minutes, in Miliseconds, is 300000\n   (5 x 60 * 1000 )\n*/\nconst cinco = 5 * 60 * 1000;\nconst diez = 2 * cinco;\nconst stale = new Date(Date.now() + diez).toISOString();\n\n/*\nNot all fields are required for display on most TAK Products, other systems may \nhave different requirements. YMMV.\n*/\n\nmsg.payload = {\n    \"event\": {\n        \"_attributes\": {\n            \"version\": \"2.0\",\n            \"uid\": \"TACO MONSTER\",\n            \"type\": \"a-f-G-U-S-T-A-C\",\n            \"how\": \"m-p\",\n            \"time\": new Date(Date.now()).toISOString(),\n            \"start\": new Date(Date.now()).toISOString(),\n            \"stale\": stale\n        },\n        \"point\": {\n            \"_attributes\": {\n                \"lat\": \"12.76\",\n                \"lon\": \"21.4975\",\n                \"hae\": \"0.0\",\n                \"ce\": \"9999999.0\",\n                \"le\": \"9999999.0\"\n            }\n        },\n        \"detail\": {}\n        }\n}\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 960,
-        "y": 220,
+        "x": 930,
+        "y": 280,
         "wires": [
             [
                 "36161e17c7fe0ea9"
@@ -46,7 +46,7 @@
         "id": "498a46c6ad158bcb",
         "type": "debug",
         "z": "969966e134a6473a",
-        "name": "debug XML",
+        "name": "debug xml",
         "active": true,
         "tosidebar": true,
         "console": false,
@@ -55,8 +55,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1350,
-        "y": 40,
+        "x": 1370,
+        "y": 100,
         "wires": []
     },
     {
@@ -71,8 +71,8 @@
         "outport": "",
         "base64": false,
         "multicast": "multi",
-        "x": 1370,
-        "y": 140,
+        "x": 1390,
+        "y": 200,
         "wires": []
     },
     {
@@ -91,8 +91,8 @@
         "authType": "basic",
         "senderr": false,
         "headers": [],
-        "x": 290,
-        "y": 160,
+        "x": 310,
+        "y": 220,
         "wires": [
             [
                 "cd5194d194ec5c51"
@@ -103,21 +103,21 @@
         "id": "a9efd143c2b71417",
         "type": "inject",
         "z": "969966e134a6473a",
-        "name": "Ping",
+        "name": "ping",
         "props": [
             {
                 "p": "payload"
             }
         ],
-        "repeat": "60",
+        "repeat": "",
         "crontab": "",
         "once": false,
         "onceDelay": 0.1,
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 90,
-        "y": 140,
+        "x": 110,
+        "y": 200,
         "wires": [
             [
                 "0f54ebb3e16997ac",
@@ -142,8 +142,8 @@
         "authType": "basic",
         "senderr": false,
         "headers": [],
-        "x": 290,
-        "y": 120,
+        "x": 310,
+        "y": 180,
         "wires": [
             [
                 "cd5194d194ec5c51"
@@ -163,8 +163,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 590,
-        "y": 40,
+        "x": 610,
+        "y": 100,
         "wires": []
     },
     {
@@ -187,8 +187,8 @@
         "reduceInit": "",
         "reduceInitType": "num",
         "reduceFixup": "",
-        "x": 470,
-        "y": 140,
+        "x": 490,
+        "y": 200,
         "wires": [
             [
                 "8da48155fb484c05",
@@ -200,7 +200,7 @@
         "id": "560fa7addbafca34",
         "type": "function",
         "z": "969966e134a6473a",
-        "name": "TRACCAR JSON (spots)",
+        "name": "traccar json (spots)",
         "func": "/* \nExample JSON containing the keys & values for popular cursor on target CoT \nfields, including time, point latitude & longitude, type, and more.\n*/\n\n/* Stale is Date.now() + miliseconds. \n Ruberic: 1000 Miliseconds in 1 Second\n Example: 5 Minutes, in Miliseconds, is 300000\n   (5 x 60 * 1000 )\n*/\nconst short = 10000;\nconst cinco = 5 * 60 * 1000;\nconst diez = 2 * cinco;\nconst stale = new Date(Date.now() + short).toISOString();\n\nvar speed = parseInt(msg.payload[0].speed);\nvar motion = msg.payload[0].attributes.motion;\nvar status = msg.payload[1].status;\n\n\nif (status === \"online\" && motion === true && speed >= 50) {\n    status = \"-16711936\"; //green\n}\nelse if (status === \"online\" && motion === true && (speed >= 25 && speed < 50)) {\n    status = \"-256\"; //yellow\n}\nelse if (status === \"online\" && motion === true && speed < 25) {\n    status = \"-65536\"; //red\n}\nelse if (status === \"online\" && motion === false) {\n    status = \"-65536\"; //red\n} else {\n    status = \"-8947849\"; //grey\n};\n\n\n\nvar battery =  msg.payload[0].attributes.batteryLevel;\nvar color = status\nvar name = msg.payload[1].name;\nvar lat = msg.payload[0].latitude;\nvar lon = msg.payload[0].longitude;\nvar alt = msg.payload[0].altitude;\n\n/*\nNot all fields are required for display on most TAK Products, other systems may \nhave different requirements. YMMV.\n*/\n\nmsg.payload = {\n    \"event\": {\n        \"_attributes\": {\n            \"version\": \"2.0\",\n            \"uid\": \"\"+ name +\"\",\n            \"type\": \"b-m-p-s-m\",\n            \"how\": \"m-g\",\n            \"time\": new Date(Date.now()).toISOString(),\n            \"start\": new Date(Date.now()).toISOString(),\n            \"stale\": stale,\n        },\n        \"point\": {\n            \"_attributes\": {\n                \"lat\": \"\"+ lat +\"\",\n                \"lon\": \"\"+ lon + \"\",\n                \"hae\": \"0.0\",\n                \"ce\": \"9999999.0\",\n                \"le\": \"9999999.0\"\n            }\n        },\n        \"detail\": {\n            \"usericon\": {\n                \"_attributes\": {\n                    \"iconsetpath\": \"COT_MAPPING_SPOTMAP/b-m-p-s-m/\"+ color +\"\",\n                },\n            },\n            \"contact\": {\n                \"_attributes\": {\n                \"callsign\": \"\"+ name +\"\",\n                }\n            },\n            /* \"__group\": {\n                \"_attributes\": {\n                \"role\": \"Team Member\",\n                \"name\": \"Red\",\n                }\n            }, */\n            \"color\": {\n                \"_attributes\": {\n                \"argb\": \"\"+ color +\"\",\n                \"test\": \"test\",\n                },\n            },\n        }\n    }\n};\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
@@ -208,7 +208,7 @@
         "finalize": "",
         "libs": [],
         "x": 930,
-        "y": 180,
+        "y": 240,
         "wires": [
             []
         ]
@@ -226,23 +226,23 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 830,
-        "y": 40,
+        "x": 850,
+        "y": 100,
         "wires": []
     },
     {
         "id": "2db3f347c28e9cfb",
         "type": "function",
         "z": "969966e134a6473a",
-        "name": "Sort Devices/Positions",
+        "name": "sort devices/positions",
         "func": "var newMsg;\nfor (var i = 0; i < msg.payload[1].length; i++) {\n    newMsg = { payload: [msg.payload[0][i], msg.payload[1][i]]};\nnode.send(newMsg);\n};\nreturn;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 660,
-        "y": 140,
+        "x": 680,
+        "y": 200,
         "wires": [
             [
                 "d6c667af49d7aad2",
@@ -254,7 +254,7 @@
         "id": "01ba5364188c914f",
         "type": "function",
         "z": "969966e134a6473a",
-        "name": "TRACCAR JSON (pointers)",
+        "name": "traccar json (pointers)",
         "func": "/* \nExample JSON containing the keys & values for popular cursor on target CoT \nfields, including time, point latitude & longitude, type, and more.\n*/\n\n/* Stale is Date.now() + miliseconds. \n Ruberic: 1000 Miliseconds in 1 Second\n Example: 5 Minutes, in Miliseconds, is 300000\n   (5 x 60 * 1000 )\n*/\nconst short = 10000;\nconst cinco = 5 * 60 * 1000;\nconst diez = 2 * cinco;\nconst stale = new Date(Date.now() + short).toISOString();\n\nvar dirNone = \"ad78aafb-83a6-4c07-b2b9-a897a8b6a38f/Pointers/track-none.png\"\nvar dir0 = \"ad78aafb-83a6-4c07-b2b9-a897a8b6a38f/Pointers/000.png\"\nvar dir30 = \"ad78aafb-83a6-4c07-b2b9-a897a8b6a38f/Pointers/030.png\"\nvar dir60 = \"ad78aafb-83a6-4c07-b2b9-a897a8b6a38f/Pointers/060.png\"\nvar dir90 = \"ad78aafb-83a6-4c07-b2b9-a897a8b6a38f/Pointers/090.png\"\nvar dir120 = \"ad78aafb-83a6-4c07-b2b9-a897a8b6a38f/Pointers/120.png\"\nvar dir150 = \"ad78aafb-83a6-4c07-b2b9-a897a8b6a38f/Pointers/150.png\"\nvar dir180 = \"ad78aafb-83a6-4c07-b2b9-a897a8b6a38f/Pointers/180.png\"\nvar dir210 = \"ad78aafb-83a6-4c07-b2b9-a897a8b6a38f/Pointers/210.png\"\nvar dir240 = \"ad78aafb-83a6-4c07-b2b9-a897a8b6a38f/Pointers/240.png\"\nvar dir270 = \"ad78aafb-83a6-4c07-b2b9-a897a8b6a38f/Pointers/270.png\"\nvar dir300 = \"ad78aafb-83a6-4c07-b2b9-a897a8b6a38f/Pointers/300.png\"\nvar dir330 = \"ad78aafb-83a6-4c07-b2b9-a897a8b6a38f/Pointers/330.png\"\nvar course = parseInt(msg.payload[0].course);\nvar dir;\nvar speed = parseInt(msg.payload[0].speed);\nvar motion = msg.payload[0].attributes.motion;\nvar status = msg.payload[1].status;\n\n//icon direction below\nif (course >= 346 || course <= 15) {\n    dir = dir0;\n}\nelse if (course >= 16 && course <= 45) {\n    dir = dir30;\n}\nelse if (course >= 46 && course <= 75) {\n        dir = dir60;\n}\nelse if (course >= 76 && course <= 105) {\n        dir = dir90;\n}\nelse if (course >= 106 && course <= 135) {\n        dir = dir120;\n}\nelse if (course >= 136 && course <= 165) {\n        dir = dir150;\n}\nelse if (course >= 166 && course <= 195) {\n        dir = dir180;\n}\nelse if (course >= 196 && course <= 225) {\n    dir = dir210;\n}\nelse if (course >= 226 && course <= 255) {\n    dir = dir240;\n}\nelse if (course >= 256 && course <= 285) {\n    dir = dir270;\n}\nelse if (course >= 286 && course <= 315) {\n    dir = dir300;\n}\nelse if (course >= 316 && course <= 345) {\n    dir = dir330;\n} else {\n    dir = dirNone;\n};\n\n\n\nif (status === \"online\" && motion === true && speed >= 50) {\n    status = \"-16711936\"; //green\n}\nelse if (status === \"online\" && motion === true && (speed >= 25 && speed < 50)) {\n    status = \"-256\"; //yellow\n}\nelse if (status === \"online\" && motion === true && speed < 25) {\n    status = \"-65536\"; //red\n}\nelse if (status === \"online\" && motion === false) {\n    status = \"-65536\"; //red\n    dir = dirNone;\n} else {\n    status = \"-8947849\"; //grey\n    dir = dirNone;\n};\n\n\nvar icon = dir;\nvar battery =  msg.payload[0].attributes.batteryLevel;\nvar color = status\nvar name = msg.payload[1].name;\nvar lat = msg.payload[0].latitude;\nvar lon = msg.payload[0].longitude;\nvar alt = msg.payload[0].altitude;\n\n/*\nNot all fields are required for display on most TAK Products, other systems may \nhave different requirements. YMMV.\n*/\n\nmsg.payload = {\n    \"event\": {\n        \"_attributes\": {\n            \"version\": \"2.0\",\n            \"uid\": \"\"+ name +\"\",\n            \"type\": \"b-m-p-s-m\",\n            \"how\": \"m-g\",\n            \"time\": new Date(Date.now()).toISOString(),\n            \"start\": new Date(Date.now()).toISOString(),\n            \"stale\": stale,\n        },\n        \"point\": {\n            \"_attributes\": {\n                \"lat\": \"\"+ lat +\"\",\n                \"lon\": \"\"+ lon + \"\",\n                \"hae\": \"0.0\",\n                \"ce\": \"9999999.0\",\n                \"le\": \"9999999.0\"\n            }\n        },\n        \"detail\": {\n            \"usericon\": {\n                \"_attributes\": {\n                    \"iconsetpath\": \"\"+ icon +\"\",\n                },\n            },\n            \"contact\": {\n                \"_attributes\": {\n                \"callsign\": \"\"+ name +\"\",\n                }\n            },\n            /* \"__group\": {\n                \"_attributes\": {\n                \"role\": \"Team Member\",\n                \"name\": \"Red\",\n                }\n            }, */\n            \"color\": {\n                \"_attributes\": {\n                \"argb\": \"\"+ color +\"\",\n                \"test\": \"test\",\n                },\n            },\n        }\n    }\n};\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
@@ -262,7 +262,7 @@
         "finalize": "",
         "libs": [],
         "x": 920,
-        "y": 140,
+        "y": 200,
         "wires": [
             [
                 "1cb12d7abba4d01a",
@@ -281,8 +281,8 @@
         "base64": false,
         "end": false,
         "tls": "1c52b35895c06e7e",
-        "x": 1390,
-        "y": 180,
+        "x": 1410,
+        "y": 240,
         "wires": []
     },
     {
@@ -298,15 +298,15 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1130,
-        "y": 40,
+        "x": 1150,
+        "y": 100,
         "wires": []
     },
     {
         "id": "1846382431b3728d",
         "type": "inject",
         "z": "969966e134a6473a",
-        "name": "Test / Troubleshoot",
+        "name": "test / troubleshoot",
         "props": [
             {
                 "p": "payload"
@@ -323,8 +323,8 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 670,
-        "y": 300,
+        "x": 690,
+        "y": 360,
         "wires": [
             [
                 "8557b4a51b32135b"
@@ -338,7 +338,7 @@
         "name": "traccarTakFlow",
         "info": "a node red flow to forward traccar client devices to ATAK via TAKServer or Multicast (requires ampledata's node-red-contrib-tak node to be installed)",
         "x": 160,
-        "y": 60,
+        "y": 120,
         "wires": []
     },
     {
