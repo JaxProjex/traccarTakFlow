@@ -1,5 +1,5 @@
 # traccarTakFlow
-Node-Red Flow to forward Traccar server device locations to ATAK via multicast or TAKServer. CoT icons will change colors based on speed and status and can be configured to populate as a pointer to show course direction of movement (not supported by iTAK) or as a Spot Icon. (used in conjunction with Ampledatas node-red-contrib-tak). copy contents in "traccarTakFlow.json" and import to Node-Red.
+Node-Red Flow to forward Traccar Client device locations to ATAK via multicast or TAKServer. CoT icons will change colors based on speed and status and can be configured to populate as a pointer to show course direction of movement (not supported by iTAK) or as a Spot Icon. (used in conjunction with Ampledatas node-red-contrib-tak).
 
 ![traccar flow](/screenshot1.png?raw=true "Node Red Flow")
 
@@ -41,13 +41,5 @@ HOW IT WORKS:
 -tak node: formats and encodes the json into a properly formatted CoT marker read and digested by TAK.
 
 -tcp/udp node: the output of where the CoT marker gets sent to.
-
-=========================
-
-TESTING / TROUBLESHOOTING:
-
--To test if CoT messages are being sent and recieved by TAKServer, send the example JSON to the TAK node and see if it populates on your TAK client devices. 
-
--To test if your Traccar clients are getting forwarded to your TAKServer, utilize an android phone with Traccar Client App and Mock Location App. You can then create a route for the android phones GPS to follow in the Mock Location app to mimic an operational testing environment.
 
 
