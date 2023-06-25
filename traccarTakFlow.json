@@ -12,41 +12,22 @@
         "type": "tak",
         "z": "969966e134a6473a",
         "name": "TAK",
-        "x": 1350,
-        "y": 200,
+        "x": 1830,
+        "y": 280,
         "wires": [
             [
                 "498a46c6ad158bcb",
-                "ccde6da94e3c5ae9"
+                "cc1620add42ed0e2"
             ],
             [],
             []
         ]
     },
     {
-        "id": "8557b4a51b32135b",
-        "type": "function",
-        "z": "969966e134a6473a",
-        "name": "example/test json",
-        "func": "/* \nExample JSON containing the keys & values for popular cursor on target CoT \nfields, including time, point latitude & longitude, type, and more.\n*/\n\n/* Stale is Date.now() + miliseconds. \n Ruberic: 1000 Miliseconds in 1 Second\n Example: 5 Minutes, in Miliseconds, is 300000\n   (5 x 60 * 1000 )\n*/\nconst cinco = 5 * 60 * 1000;\nconst diez = 2 * cinco;\nconst stale = new Date(Date.now() + diez).toISOString();\n\n/*\nNot all fields are required for display on most TAK Products, other systems may \nhave different requirements. YMMV.\n*/\n\nmsg.payload = {\n    \"event\": {\n        \"_attributes\": {\n            \"version\": \"2.0\",\n            \"uid\": \"TACO MONSTER\",\n            \"type\": \"a-f-G-U-S-T-A-C\",\n            \"how\": \"m-p\",\n            \"time\": new Date(Date.now()).toISOString(),\n            \"start\": new Date(Date.now()).toISOString(),\n            \"stale\": stale\n        },\n        \"point\": {\n            \"_attributes\": {\n                \"lat\": \"12.76\",\n                \"lon\": \"21.4975\",\n                \"hae\": \"0.0\",\n                \"ce\": \"9999999.0\",\n                \"le\": \"9999999.0\"\n            }\n        },\n        \"detail\": {}\n        }\n}\n\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 1110,
-        "y": 280,
-        "wires": [
-            [
-                "36161e17c7fe0ea9"
-            ]
-        ]
-    },
-    {
         "id": "498a46c6ad158bcb",
         "type": "debug",
         "z": "969966e134a6473a",
-        "name": "debug xml",
+        "name": "debug cot",
         "active": true,
         "tosidebar": true,
         "console": false,
@@ -55,8 +36,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1550,
-        "y": 100,
+        "x": 1970,
+        "y": 180,
         "wires": []
     },
     {
@@ -71,8 +52,8 @@
         "outport": "",
         "base64": false,
         "multicast": "multi",
-        "x": 1570,
-        "y": 200,
+        "x": 2050,
+        "y": 280,
         "wires": []
     },
     {
@@ -91,8 +72,8 @@
         "authType": "basic",
         "senderr": false,
         "headers": [],
-        "x": 310,
-        "y": 220,
+        "x": 610,
+        "y": 300,
         "wires": [
             [
                 "7afea9948a4f6799"
@@ -116,8 +97,8 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 110,
-        "y": 200,
+        "x": 250,
+        "y": 280,
         "wires": [
             [
                 "0f54ebb3e16997ac",
@@ -142,8 +123,8 @@
         "authType": "basic",
         "senderr": false,
         "headers": [],
-        "x": 310,
-        "y": 180,
+        "x": 610,
+        "y": 260,
         "wires": [
             [
                 "f3d1a82e7d6fa530"
@@ -163,8 +144,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 790,
-        "y": 100,
+        "x": 1230,
+        "y": 180,
         "wires": []
     },
     {
@@ -187,8 +168,8 @@
         "reduceInit": "",
         "reduceInitType": "num",
         "reduceFixup": "",
-        "x": 650,
-        "y": 200,
+        "x": 1090,
+        "y": 280,
         "wires": [
             [
                 "8da48155fb484c05",
@@ -201,16 +182,18 @@
         "type": "function",
         "z": "969966e134a6473a",
         "name": "traccar json (spots)",
-        "func": "/* \nExample JSON containing the keys & values for popular cursor on target CoT \nfields, including time, point latitude & longitude, type, and more.\n*/\n\n/* Stale is Date.now() + miliseconds. \n Ruberic: 1000 Miliseconds in 1 Second\n Example: 5 Minutes, in Miliseconds, is 300000\n   (5 x 60 * 1000 )\n*/\nconst short = 10000;\nconst cinco = 5 * 60 * 1000;\nconst diez = 2 * cinco;\nconst stale = new Date(Date.now() + short).toISOString();\n\nvar speed = parseInt(msg.payload[0].speed);\nvar motion = msg.payload[0].attributes.motion;\nvar status = msg.payload[1].status;\n\n\nif (status === \"online\" && motion === true && speed >= 50) {\n    status = \"-16711936\"; //green\n}\nelse if (status === \"online\" && motion === true && (speed >= 25 && speed < 50)) {\n    status = \"-256\"; //yellow\n}\nelse if (status === \"online\" && motion === true && speed < 25) {\n    status = \"-65536\"; //red\n}\nelse if (status === \"online\" && motion === false) {\n    status = \"-65536\"; //red\n} else {\n    status = \"-8947849\"; //grey\n};\n\n\n\nvar battery =  msg.payload[0].attributes.batteryLevel;\nvar color = status\nvar name = msg.payload[1].name;\nvar lat = msg.payload[0].latitude;\nvar lon = msg.payload[0].longitude;\nvar alt = msg.payload[0].altitude;\n\n/*\nNot all fields are required for display on most TAK Products, other systems may \nhave different requirements. YMMV.\n*/\n\nmsg.payload = {\n    \"event\": {\n        \"_attributes\": {\n            \"version\": \"2.0\",\n            \"uid\": \"\"+ name +\"\",\n            \"type\": \"b-m-p-s-m\",\n            \"how\": \"m-g\",\n            \"time\": new Date(Date.now()).toISOString(),\n            \"start\": new Date(Date.now()).toISOString(),\n            \"stale\": stale,\n        },\n        \"point\": {\n            \"_attributes\": {\n                \"lat\": \"\"+ lat +\"\",\n                \"lon\": \"\"+ lon + \"\",\n                \"hae\": \"0.0\",\n                \"ce\": \"9999999.0\",\n                \"le\": \"9999999.0\"\n            }\n        },\n        \"detail\": {\n            \"usericon\": {\n                \"_attributes\": {\n                    \"iconsetpath\": \"COT_MAPPING_SPOTMAP/b-m-p-s-m/\"+ color +\"\",\n                },\n            },\n            \"contact\": {\n                \"_attributes\": {\n                \"callsign\": \"\"+ name +\"\",\n                }\n            },\n            /* \"__group\": {\n                \"_attributes\": {\n                \"role\": \"Team Member\",\n                \"name\": \"Red\",\n                }\n            }, */\n            \"color\": {\n                \"_attributes\": {\n                \"argb\": \"\"+ color +\"\",\n                \"test\": \"test\",\n                },\n            },\n        }\n    }\n};\nreturn msg;",
+        "func": "/* \nExample JSON containing the keys & values for popular cursor on target CoT \nfields, including time, point latitude & longitude, type, and more.\n*/\n\n/* Stale is Date.now() + miliseconds. \n Ruberic: 1000 Miliseconds in 1 Second\n Example: 5 Minutes, in Miliseconds, is 300000\n   (5 x 60 * 1000 )\n*/\nconst short = 10000;\nconst cinco = 5 * 60 * 1000;\nconst diez = 2 * cinco;\nconst stale = new Date(Date.now() + short).toISOString();\n\nvar speed = parseInt(msg.payload[0].speed);\nvar motion = msg.payload[0].attributes.motion;\nvar status = msg.payload[1].status;\n\n\nif (status === \"online\" && motion === true && speed >= 50) {\n    status = \"-16711936\"; //green\n}\nelse if (status === \"online\" && motion === true && (speed >= 25 && speed < 50)) {\n    status = \"-256\"; //yellow\n}\nelse if (status === \"online\" && motion === true && speed < 25) {\n    status = \"-65536\"; //red\n}\nelse if (status === \"online\" && motion === false) {\n    status = \"-65536\"; //red\n} else {\n    status = \"-8947849\"; //grey\n};\n\n\n\nvar battery =  msg.payload[0].attributes.batteryLevel;\nvar color = status\nvar name = msg.payload[1].name;\nvar lat = msg.payload[0].latitude;\nvar lon = msg.payload[0].longitude;\nvar alt = msg.payload[0].altitude;\n\n/*\nNot all fields are required for display on most TAK Products, other systems may \nhave different requirements. YMMV.\n*/\n\nmsg.payload = {\n    \"event\": {\n        \"_attributes\": {\n            \"version\": \"2.0\",\n            \"uid\": \"\"+ name +\"\",\n            \"type\": \"b-m-p-s-m\",\n            \"how\": \"h-g-i-g-o\",\n            \"time\": new Date(Date.now()).toISOString(),\n            \"start\": new Date(Date.now()).toISOString(),\n            \"stale\": stale,\n        },\n        \"point\": {\n            \"_attributes\": {\n                \"lat\": \"\"+ lat +\"\",\n                \"lon\": \"\"+ lon + \"\",\n                \"hae\": \"0.0\",\n                \"ce\": \"9999999.0\",\n                \"le\": \"9999999.0\"\n            }\n        },\n        \"detail\": {\n            \"usericon\": {\n                \"_attributes\": {\n                    \"iconsetpath\": \"COT_MAPPING_SPOTMAP/b-m-p-s-m/\"+ color +\"\",\n                },\n            },\n            \"contact\": {\n                \"_attributes\": {\n                \"callsign\": \"\"+ name +\"\",\n                }\n            },\n            /* \"__group\": {\n                \"_attributes\": {\n                \"role\": \"Team Member\",\n                \"name\": \"Red\",\n                }\n            }, */\n            \"color\": {\n                \"_attributes\": {\n                \"argb\": \"\"+ color +\"\",\n                \"test\": \"test\",\n                },\n            },\n        }\n    }\n};\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1110,
-        "y": 240,
+        "x": 1610,
+        "y": 320,
         "wires": [
-            []
+            [
+                "36161e17c7fe0ea9"
+            ]
         ]
     },
     {
@@ -226,8 +209,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1030,
-        "y": 100,
+        "x": 1510,
+        "y": 180,
         "wires": []
     },
     {
@@ -241,8 +224,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 840,
-        "y": 200,
+        "x": 1320,
+        "y": 280,
         "wires": [
             [
                 "d6c667af49d7aad2",
@@ -255,14 +238,14 @@
         "type": "function",
         "z": "969966e134a6473a",
         "name": "traccar json (pointers)",
-        "func": "/* \nExample JSON containing the keys & values for popular cursor on target CoT \nfields, including time, point latitude & longitude, type, and more.\n*/\n\n/* Stale is Date.now() + miliseconds. \n Ruberic: 1000 Miliseconds in 1 Second\n Example: 5 Minutes, in Miliseconds, is 300000\n   (5 x 60 * 1000 )\n*/\nconst short = 10000;\nconst cinco = 5 * 60 * 1000;\nconst diez = 2 * cinco;\nconst stale = new Date(Date.now() + short).toISOString();\n\nvar dirNone = \"ad78aafb-83a6-4c07-b2b9-a897a8b6a38f/Pointers/track-none.png\"\nvar dir0 = \"ad78aafb-83a6-4c07-b2b9-a897a8b6a38f/Pointers/000.png\"\nvar dir30 = \"ad78aafb-83a6-4c07-b2b9-a897a8b6a38f/Pointers/030.png\"\nvar dir60 = \"ad78aafb-83a6-4c07-b2b9-a897a8b6a38f/Pointers/060.png\"\nvar dir90 = \"ad78aafb-83a6-4c07-b2b9-a897a8b6a38f/Pointers/090.png\"\nvar dir120 = \"ad78aafb-83a6-4c07-b2b9-a897a8b6a38f/Pointers/120.png\"\nvar dir150 = \"ad78aafb-83a6-4c07-b2b9-a897a8b6a38f/Pointers/150.png\"\nvar dir180 = \"ad78aafb-83a6-4c07-b2b9-a897a8b6a38f/Pointers/180.png\"\nvar dir210 = \"ad78aafb-83a6-4c07-b2b9-a897a8b6a38f/Pointers/210.png\"\nvar dir240 = \"ad78aafb-83a6-4c07-b2b9-a897a8b6a38f/Pointers/240.png\"\nvar dir270 = \"ad78aafb-83a6-4c07-b2b9-a897a8b6a38f/Pointers/270.png\"\nvar dir300 = \"ad78aafb-83a6-4c07-b2b9-a897a8b6a38f/Pointers/300.png\"\nvar dir330 = \"ad78aafb-83a6-4c07-b2b9-a897a8b6a38f/Pointers/330.png\"\nvar course = parseInt(msg.payload[0].course);\nvar dir;\nvar speed = parseInt(msg.payload[0].speed);\nvar motion = msg.payload[0].attributes.motion;\nvar status = msg.payload[1].status;\n\n//icon direction below\nif (course >= 346 || course <= 15) {\n    dir = dir0;\n}\nelse if (course >= 16 && course <= 45) {\n    dir = dir30;\n}\nelse if (course >= 46 && course <= 75) {\n        dir = dir60;\n}\nelse if (course >= 76 && course <= 105) {\n        dir = dir90;\n}\nelse if (course >= 106 && course <= 135) {\n        dir = dir120;\n}\nelse if (course >= 136 && course <= 165) {\n        dir = dir150;\n}\nelse if (course >= 166 && course <= 195) {\n        dir = dir180;\n}\nelse if (course >= 196 && course <= 225) {\n    dir = dir210;\n}\nelse if (course >= 226 && course <= 255) {\n    dir = dir240;\n}\nelse if (course >= 256 && course <= 285) {\n    dir = dir270;\n}\nelse if (course >= 286 && course <= 315) {\n    dir = dir300;\n}\nelse if (course >= 316 && course <= 345) {\n    dir = dir330;\n} else {\n    dir = dirNone;\n};\n\n\n\nif (status === \"online\" && motion === true && speed >= 50) {\n    status = \"-16711936\"; //green\n}\nelse if (status === \"online\" && motion === true && (speed >= 25 && speed < 50)) {\n    status = \"-256\"; //yellow\n}\nelse if (status === \"online\" && motion === true && speed < 25) {\n    status = \"-65536\"; //red\n}\nelse if (status === \"online\" && motion === false) {\n    status = \"-65536\"; //red\n    dir = dirNone;\n} else {\n    status = \"-8947849\"; //grey\n    dir = dirNone;\n};\n\n\nvar icon = dir;\nvar battery =  msg.payload[0].attributes.batteryLevel;\nvar color = status\nvar name = msg.payload[1].name;\nvar lat = msg.payload[0].latitude;\nvar lon = msg.payload[0].longitude;\nvar alt = msg.payload[0].altitude;\n\n/*\nNot all fields are required for display on most TAK Products, other systems may \nhave different requirements. YMMV.\n*/\n\nmsg.payload = {\n    \"event\": {\n        \"_attributes\": {\n            \"version\": \"2.0\",\n            \"uid\": \"\"+ name +\"\",\n            \"type\": \"b-m-p-s-m\",\n            \"how\": \"m-g\",\n            \"time\": new Date(Date.now()).toISOString(),\n            \"start\": new Date(Date.now()).toISOString(),\n            \"stale\": stale,\n        },\n        \"point\": {\n            \"_attributes\": {\n                \"lat\": \"\"+ lat +\"\",\n                \"lon\": \"\"+ lon + \"\",\n                \"hae\": \"0.0\",\n                \"ce\": \"9999999.0\",\n                \"le\": \"9999999.0\"\n            }\n        },\n        \"detail\": {\n            \"usericon\": {\n                \"_attributes\": {\n                    \"iconsetpath\": \"\"+ icon +\"\",\n                },\n            },\n            \"contact\": {\n                \"_attributes\": {\n                \"callsign\": \"\"+ name +\"\",\n                }\n            },\n            /* \"__group\": {\n                \"_attributes\": {\n                \"role\": \"Team Member\",\n                \"name\": \"Red\",\n                }\n            }, */\n            \"color\": {\n                \"_attributes\": {\n                \"argb\": \"\"+ color +\"\",\n                \"test\": \"test\",\n                },\n            },\n        }\n    }\n};\nreturn msg;",
+        "func": "/* \nExample JSON containing the keys & values for popular cursor on target CoT \nfields, including time, point latitude & longitude, type, and more.\n*/\n\n/* Stale is Date.now() + miliseconds. \n Ruberic: 1000 Miliseconds in 1 Second\n Example: 5 Minutes, in Miliseconds, is 300000\n   (5 x 60 * 1000 )\n*/\nconst short = 10000;\nconst cinco = 5 * 60 * 1000;\nconst diez = 2 * cinco;\nconst stale = new Date(Date.now() + short).toISOString();\n\nvar dirNone = \"ad78aafb-83a6-4c07-b2b9-a897a8b6a38f/Pointers/track-none.png\"\nvar dir0 = \"ad78aafb-83a6-4c07-b2b9-a897a8b6a38f/Pointers/000.png\"\nvar dir30 = \"ad78aafb-83a6-4c07-b2b9-a897a8b6a38f/Pointers/030.png\"\nvar dir60 = \"ad78aafb-83a6-4c07-b2b9-a897a8b6a38f/Pointers/060.png\"\nvar dir90 = \"ad78aafb-83a6-4c07-b2b9-a897a8b6a38f/Pointers/090.png\"\nvar dir120 = \"ad78aafb-83a6-4c07-b2b9-a897a8b6a38f/Pointers/120.png\"\nvar dir150 = \"ad78aafb-83a6-4c07-b2b9-a897a8b6a38f/Pointers/150.png\"\nvar dir180 = \"ad78aafb-83a6-4c07-b2b9-a897a8b6a38f/Pointers/180.png\"\nvar dir210 = \"ad78aafb-83a6-4c07-b2b9-a897a8b6a38f/Pointers/210.png\"\nvar dir240 = \"ad78aafb-83a6-4c07-b2b9-a897a8b6a38f/Pointers/240.png\"\nvar dir270 = \"ad78aafb-83a6-4c07-b2b9-a897a8b6a38f/Pointers/270.png\"\nvar dir300 = \"ad78aafb-83a6-4c07-b2b9-a897a8b6a38f/Pointers/300.png\"\nvar dir330 = \"ad78aafb-83a6-4c07-b2b9-a897a8b6a38f/Pointers/330.png\"\nvar course = parseInt(msg.payload[0].course);\nvar dir;\nvar speed = parseInt(msg.payload[0].speed);\nvar motion = msg.payload[0].attributes.motion;\nvar status = msg.payload[1].status;\n\n//icon direction below\nif (course >= 346 || course <= 15) {\n    dir = dir0;\n}\nelse if (course >= 16 && course <= 45) {\n    dir = dir30;\n}\nelse if (course >= 46 && course <= 75) {\n        dir = dir60;\n}\nelse if (course >= 76 && course <= 105) {\n        dir = dir90;\n}\nelse if (course >= 106 && course <= 135) {\n        dir = dir120;\n}\nelse if (course >= 136 && course <= 165) {\n        dir = dir150;\n}\nelse if (course >= 166 && course <= 195) {\n        dir = dir180;\n}\nelse if (course >= 196 && course <= 225) {\n    dir = dir210;\n}\nelse if (course >= 226 && course <= 255) {\n    dir = dir240;\n}\nelse if (course >= 256 && course <= 285) {\n    dir = dir270;\n}\nelse if (course >= 286 && course <= 315) {\n    dir = dir300;\n}\nelse if (course >= 316 && course <= 345) {\n    dir = dir330;\n} else {\n    dir = dirNone;\n};\n\n\n\nif (status === \"online\" && motion === true && speed >= 50) {\n    status = \"-16711936\"; //green\n}\nelse if (status === \"online\" && motion === true && (speed >= 25 && speed < 50)) {\n    status = \"-256\"; //yellow\n}\nelse if (status === \"online\" && motion === true && speed < 25) {\n    status = \"-65536\"; //red\n}\nelse if (status === \"online\" && motion === false) {\n    status = \"-65536\"; //red\n    dir = dirNone;\n} else {\n    status = \"-8947849\"; //grey\n    dir = dirNone;\n};\n\n\nvar icon = dir;\nvar battery =  msg.payload[0].attributes.batteryLevel;\nvar color = status\nvar name = msg.payload[1].name;\nvar lat = msg.payload[0].latitude;\nvar lon = msg.payload[0].longitude;\nvar alt = msg.payload[0].altitude;\n\n/*\nNot all fields are required for display on most TAK Products, other systems may \nhave different requirements. YMMV.\n*/\n\nmsg.payload = {\n    \"event\": {\n        \"_attributes\": {\n            \"version\": \"2.0\",\n            \"uid\": \"\"+ name +\"\",\n            \"type\": \"a-u-G\",\n            \"how\": \"h-g-i-g-o\",\n            \"time\": new Date(Date.now()).toISOString(),\n            \"start\": new Date(Date.now()).toISOString(),\n            \"stale\": stale,\n        },\n        \"point\": {\n            \"_attributes\": {\n                \"lat\": \"\"+ lat +\"\",\n                \"lon\": \"\"+ lon + \"\",\n                \"hae\": \"0.0\",\n                \"ce\": \"9999999.0\",\n                \"le\": \"9999999.0\"\n            }\n        },\n        \"detail\": {\n            \"usericon\": {\n                \"_attributes\": {\n                    \"iconsetpath\": \"\"+ icon +\"\",\n                },\n            },\n            \"contact\": {\n                \"_attributes\": {\n                \"callsign\": \"\"+ name +\"\",\n                }\n            },\n            /* \"__group\": {\n                \"_attributes\": {\n                \"role\": \"Team Member\",\n                \"name\": \"Red\",\n                }\n            }, */\n            \"color\": {\n                \"_attributes\": {\n                \"argb\": \"\"+ color +\"\",\n                \"test\": \"test\",\n                },\n            },\n        }\n    }\n};\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1100,
-        "y": 200,
+        "x": 1600,
+        "y": 280,
         "wires": [
             [
                 "1cb12d7abba4d01a",
@@ -281,8 +264,8 @@
         "base64": false,
         "end": false,
         "tls": "1c52b35895c06e7e",
-        "x": 1590,
-        "y": 240,
+        "x": 2070,
+        "y": 320,
         "wires": []
     },
     {
@@ -290,7 +273,7 @@
         "type": "debug",
         "z": "969966e134a6473a",
         "name": "debug json",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -298,46 +281,17 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1330,
-        "y": 100,
+        "x": 1770,
+        "y": 180,
         "wires": []
-    },
-    {
-        "id": "1846382431b3728d",
-        "type": "inject",
-        "z": "969966e134a6473a",
-        "name": "test / troubleshoot",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 870,
-        "y": 360,
-        "wires": [
-            [
-                "8557b4a51b32135b"
-            ]
-        ]
     },
     {
         "id": "650aba5c49b1269c",
         "type": "comment",
         "z": "969966e134a6473a",
-        "name": "traccarTakFlow",
-        "info": "a node red flow to forward traccar client devices to ATAK via TAKServer or Multicast (requires ampledata's node-red-contrib-tak node to be installed)",
-        "x": 160,
+        "name": "README",
+        "info": "README\n\nREQUIREMENTS:\n-Node-Red\n-node-red-contrib-tak https://github.com/snstac/node-red-contrib-tak\n-node-red-dashboard\n-TAKServer (or Multicast supported devices)\n-Traccar Server\n\nSETUP NODE-RED:\n-https://nodered.org/docs/getting-started/\n-options include installing node-red on your local PC, a Raspberry Pi or similar single board computer or mini PC, deploying node-red on a cloud server or virtual private server (VPS), Docker Container, or local virtual environment. After installing node-red you should be able to go to the node-red dashboard at http://*nodeRedIPaddress:1880 you may have to open appropriate ports (1880) to allow devices to access the node-red dashboard.\n\n-ensure you install the \"node-red-contrib-tak\" node. If not there should be a prompt when you import traccarTakFlow in Node-Red that there are nodes that need to be installed and will automatically install them for you if you allow. In the event that isnt the case, in Node-Red: Menu (3 horizontal lines) > Manage palette > Install > Search \"node-red-contrib-tak\" > Install > Install\n\n-follow same directions above for installing \"node-red-dashboard\"\n\n-----------------------------\n\nIMPORT .JSON FLOW TO NODE RED:\n-in GitHub: click on \"traccarTakFlow.json\" > click on the download icon \"Download raw file\" > note where the \"traccarTakFlow.json\" file downloaded to, default is in your Downloads folder\n-in Node-Red: click on menu icon (3 horizontal lines top right) > click on \"Import\" > click on \"select a file to import\" > go to Downloads folder and click on \"traccarTakFlow.json\" > Upload > Import\n\nALTERNATIVELY..\n-you can just copy the whole \"traccarTakFlow.json\" code from GitHub and paste it into the Node-Red Import Clipboard.\n\n-------------------------------\n\nCONFIGURE TAKSERVER:\n-TAKServer can be hosted on various platforms: Raspberry Pi, Mini PCs, your local PC, Cloud Servers or Virtual Private Servers (VPS), Docker Containers, or Virtual Environments. Regardless, if you're looking for instructions on setting up your TAKServer I recommend ATAKHQs guides https://www.atakhq.com/en/tak-server\n-Configuring the TCP (TAKServer) node in Node-Red traccarTakFlow, Input your TAKServer IP and Port, and checkbox whether you're using SSL/TLS or not. If you are using SSL/TLS, ensure you upload you TAKServer certificates and key that are located in the directory of your TAKServer that stores all client certificates/keys (ie: ubuntu docker container is \"/opt/tak/certs/files\"). I Suggest creating a TAK client \"node-red\" to be used specifically for Node-Reds handling of forwarding data to TAK. In your certificates file you will want to copy and upload \"node-red.pem\" as the \"Certificate\", \"node-red.key\" as the \"Private Key\" and \"ca.pem\" as the \"CA Certificate\" in the TLS Configuration Properties in the TCP (TAKServer) node in Node-Red. You will also need to enter the Passphrase for your TAKServer truststore, this can be found in your TAKServers CoreConfig.xml file. Default is \"atakatak\".\n\n-------------------------------\n\nSETUP TRACCAR SERVER:\n-https://www.traccar.org/download/\n-Traccar Server can be hosted on various platforms: Raspberry Pi, Mini PCs, your local PC, Cloud Servers or Virtual Private Servers (VPS), Docker Containers, or Virtual Environments.\n\n----------------------------------\n\nCONFIGURE PING NODE:\n-in Node-Red: configure ping node \"repeat\" > \"interval\" and set the frequency of how often the traccar server device locations are requested and then forwarded to TAK.\n\n-----------------------------------\n\n*OPTIONAL* CONFIGURE PING FREQUENCY NODE:\n-in Node-Red: configure ping frequency node and adjust the \"resend\" time to your needed usage. This creates a UI switch that can be manipulated in http://noderedipaddress:1880/ui\n\n-----------------------------------\n\nCONFIGURE BOTH HTTP NODES:\n-in Node-Red: input your Traccar Server IP address and port (default port is 8082)\n\n-----------------------------------\n\n\nUSING THE TRACCARTAKFLOW:\n-ensure you have your Node-Red server, Traccar Server, and TAKServer running.\n-configure either the ping node or the ping frequency node. Configure both http req nodes with your traccar server credentials. Choose whether you want the flow to use spots or pointers to populate on TAK. Configure TAKServer info and credentials into the TCP node (unless using multicast).\n-everytime a GET request is made from the ping nodes it will update TAK with the positions of all Traccar Server devices that are associated with the account that was used in the http req nodes.\n\n\n------------------------------------\n\nHOW THE TRACCARTAKFLOW WORKS:\n-ping nodes trigger for both http GET requests to be sent to traccar to get device names and locations. Sort node sorts the devices by position ID number to more easily pair the proper devices names with the proper locations. The delay node helps to better associate the array by consistently making it in a specified index. Join node joins both the device and position arrays into one msg. The sort node sorts so every device name and position array is joined and sent as a separate msg. The json node grabs and inputs the data of the traccar device name and position into a json formatted CoT msg. The TAK node converts the json into a CoT XML formatted string to send to TAK through the TCP or UDP node.\n\n--------------------------------------\n\nTROUBLESHOOTING / KNOWN ISSUES:\n\n-in the event the Node-Red service explodes and you lose connection to the Node-Red UI and cant reconnect, you may need to restart your Node-Red service\n\n$ sudo service node-red restart",
+        "x": 520,
         "y": 120,
         "wires": []
     },
@@ -346,17 +300,17 @@
         "type": "function",
         "z": "969966e134a6473a",
         "name": "sort",
-        "func": "msg.payload.sort((A, B) => A.positionId - B.positionId)\nreturn msg;",
+        "func": "msg.payload.sort((A, B) => A.positionId - B.positionId)\nmsg.topic = \"2\";\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 490,
-        "y": 180,
+        "x": 790,
+        "y": 260,
         "wires": [
             [
-                "cd5194d194ec5c51"
+                "8b14d93117af588f"
             ]
         ]
     },
@@ -365,19 +319,154 @@
         "type": "function",
         "z": "969966e134a6473a",
         "name": "sort",
-        "func": "msg.payload.sort((A, B) => A.id - B.id)\nreturn msg;",
+        "func": "msg.payload.sort((A, B) => A.id - B.id);\nmsg.topic = \"1\";\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 490,
-        "y": 220,
+        "x": 850,
+        "y": 300,
         "wires": [
             [
                 "cd5194d194ec5c51"
             ]
         ]
+    },
+    {
+        "id": "e5731ce935465d4d",
+        "type": "comment",
+        "z": "969966e134a6473a",
+        "name": "configure TCP (TAKServer)",
+        "info": "if using SSL/TLS ensure you upload your certificates, key and input your passphrase.\nCertificates (.pem) and key (.key) can be found in your TAKServers directory where it stores all TAK client certificates.\nDefualt SSL/TLS port is 8089.\n",
+        "x": 2090,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "aecbdeac2b8502ea",
+        "type": "comment",
+        "z": "969966e134a6473a",
+        "name": "configure both http req",
+        "info": "for both \"http req\" nodes: add in your traccar server ip and port along with your basic auth username and password for your traccar server",
+        "x": 620,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "f2ea26aadf4b7ba2",
+        "type": "comment",
+        "z": "969966e134a6473a",
+        "name": "choose spots or pointers",
+        "info": "choose whether you want spot CoT markers to be used or pointer CoT markers (not supported by iTAK), do this by attaching the appropriate node of your choice.",
+        "x": 1590,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "d4960a2c22b95f53",
+        "type": "comment",
+        "z": "969966e134a6473a",
+        "name": "configure ping",
+        "info": "configure ping node and scroll down to repeat and set to interval and input how often you want to update to CoTs to TAK.",
+        "x": 270,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "2e8446d40c294e36",
+        "type": "ui_switch",
+        "z": "969966e134a6473a",
+        "name": "switch",
+        "label": "traccarTakFlow",
+        "tooltip": "",
+        "group": "6aa9afc81e0c8c1e",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 230,
+        "y": 420,
+        "wires": [
+            [
+                "8fe1b6d9ea10f9d1"
+            ]
+        ]
+    },
+    {
+        "id": "8fe1b6d9ea10f9d1",
+        "type": "trigger",
+        "z": "969966e134a6473a",
+        "name": "ping frequency",
+        "op1": "1",
+        "op2": "0",
+        "op1type": "str",
+        "op2type": "str",
+        "duration": "-10",
+        "extend": false,
+        "overrideDelay": false,
+        "units": "s",
+        "reset": "false",
+        "bytopic": "all",
+        "topic": "topic",
+        "outputs": 1,
+        "x": 380,
+        "y": 420,
+        "wires": [
+            [
+                "e64442c30f19dd2b",
+                "0f54ebb3e16997ac"
+            ]
+        ]
+    },
+    {
+        "id": "8b14d93117af588f",
+        "type": "delay",
+        "z": "969966e134a6473a",
+        "name": "delay",
+        "pauseType": "delay",
+        "timeout": "100",
+        "timeoutUnits": "milliseconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 930,
+        "y": 260,
+        "wires": [
+            [
+                "cd5194d194ec5c51"
+            ]
+        ]
+    },
+    {
+        "id": "63b5fbe1f00de810",
+        "type": "comment",
+        "z": "969966e134a6473a",
+        "name": "(optional UI) configure ping frequency",
+        "info": "in the ping frequency node configure how often you want traccar clients to be updated to TAK",
+        "x": 290,
+        "y": 380,
+        "wires": []
     },
     {
         "id": "1c52b35895c06e7e",
@@ -392,5 +481,23 @@
         "servername": "",
         "verifyservercert": false,
         "alpnprotocol": ""
+    },
+    {
+        "id": "6aa9afc81e0c8c1e",
+        "type": "ui_group",
+        "name": "Default",
+        "tab": "fb24101741062f74",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "fb24101741062f74",
+        "type": "ui_tab",
+        "name": "Tab 1",
+        "icon": "dashboard",
+        "order": 1
     }
 ]
